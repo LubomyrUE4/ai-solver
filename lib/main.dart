@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:solver/widgets/Menu.dart';
+import 'package:solver/widgets/bottom_menu.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        appBar: AppBar(title: const Text("AI Solver")),
         body: Menu(
           selectedIndex: 0,
         ),

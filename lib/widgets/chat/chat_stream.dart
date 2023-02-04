@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:solver/StoreData.dart';
+import 'package:solver/services/store_data_service.dart';
 
 class ChatStream extends StatelessWidget {
   const ChatStream({super.key});

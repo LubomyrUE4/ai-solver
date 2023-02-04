@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Chatter.dart';
+import 'chat.dart';
 
 class AIChat extends StatefulWidget {
   const AIChat({super.key});
@@ -21,7 +21,6 @@ class _AIChat extends State<AIChat> {
     ),
     1: Chatter(
       goBack: () {
-        print("object");
         setState(() {
           selectedIndex = 0;
         });

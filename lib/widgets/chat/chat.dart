@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:solver/widgets/HttpService.dart';
+import 'package:solver/services/http_service.dart';
 
-import '../StoreData.dart';
-import 'ChatStream.dart';
-import 'Input.dart';
+import '../../services/store_data_service.dart';
+import 'chat_stream.dart';
+import 'chat_input.dart';
 
 class Chatter extends StatefulWidget {
   const Chatter({super.key, required this.goBack});
@@ -18,6 +18,7 @@ class Chatter extends StatefulWidget {
 }
 
 class _ChatterState extends State<Chatter> {
+  late final VoidCallback _goBack = widget.goBack;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final myController = TextEditingController();
   String textt = "";
@@ -72,6 +73,7 @@ class _ChatterState extends State<Chatter> {
         },
       );
     });
+    _inputController.clear();
   }
 
   _ChatterState();
@@ -79,6 +81,13 @@ class _ChatterState extends State<Chatter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("App Bar"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: _goBack
+        ),
+      ),
       body: Form(
           key: _formKey,
           child: Container(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'Handwriting.dart';
-import 'SelectMode.dart';
-import 'Settings.dart';
+import 'chat/chat_select_mode.dart';
+import 'handwriting.dart';
+import 'settings.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key, required this.selectedIndex});

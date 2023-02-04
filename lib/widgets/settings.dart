@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 
-import '../StoreData.dart';
+import '../services/store_data_service.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});

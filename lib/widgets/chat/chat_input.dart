@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Constants.dart';
+import '../../constants.dart';
 
 class InputChatText extends StatelessWidget {
   const InputChatText(
