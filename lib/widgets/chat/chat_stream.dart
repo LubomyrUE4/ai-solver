@@ -2,14 +2,19 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:solver/enum_chat_types.dart';
 import 'package:solver/services/store_data_service.dart';
 
 class ChatStream extends StatelessWidget {
-  const ChatStream({super.key});
-
+  const ChatStream({super.key, required this.selectedChatType});
+  final ChatType selectedChatType;
   Stream<List<MessageBubble>> getUserEmail() async* {
+    print(selectedChatType.name);
     List<MessageBubble> messages = List.empty();
-    yield await StoreData.instance.getString("messages").then((messagesString) {
+    yield await StoreData.instance.getString(selectedChatType.name).then((messagesString) {
+      if(messagesString.isEmpty) {
+        return List.empty();
+      }
       messages = MessageBubble.decode(messagesString);
       return messages;
     });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'chat/chat_select_mode.dart';
+import 'chat/chat_select_type.dart';
 import 'handwriting.dart';
 import 'settings.dart';
 

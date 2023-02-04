@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solver/enum_chat_types.dart';
 
 import 'chat.dart';
 
@@ -13,20 +14,31 @@ class _AIChat extends State<AIChat> {
   late int selectedIndex = 0;
   late Map menu = {
     0: SelectMode(
-      onPressed: () {
-        setState(() {
-          selectedIndex = 1;
-        });
-      },
+      onPressed: setChatType
     ),
     1: Chatter(
-      goBack: () {
-        setState(() {
-          selectedIndex = 0;
-        });
-      },
+      goBack: () => setChatType(0),
+      selectedChatType: ChatType.chat_ai_messages,
+    ),
+    2: Chatter(
+      goBack: () => setChatType(0),
+      selectedChatType: ChatType.conclusion_writer,
+    ),
+    3: Chatter(
+      goBack: () => setChatType(0),
+      selectedChatType: ChatType.text_shortener,
+    ),
+    4: Chatter(
+      goBack: () => setChatType(0),
+      selectedChatType: ChatType.rephraser,
     ),
   };
+
+  void setChatType(final int newIndex) {
+    setState(() {
+      selectedIndex = newIndex;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +52,7 @@ class SelectMode extends StatelessWidget {
     required this.onPressed,
   });
 
-  final VoidCallback onPressed;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -52,22 +64,22 @@ class SelectMode extends StatelessWidget {
         SelectModeButton(
           icon: Icons.chat_bubble,
           text: 'Chatter (ask anything)',
-          onPressed: () => onPressed(),
+          onPressed: () => onPressed(1),
         ),
         SelectModeButton(
           icon: Icons.translate,
           text: 'Conclustion maker',
-          onPressed: () {},
+          onPressed: () => onPressed(2),
         ),
         SelectModeButton(
           icon: Icons.build,
           text: 'Text shortener',
-          onPressed: () {},
+          onPressed: () => onPressed(3),
         ),
         SelectModeButton(
           icon: Icons.water,
           text: 'Rephraser',
-          onPressed: () {},
+          onPressed: () => onPressed(4),
         ),
       ]),
     ));

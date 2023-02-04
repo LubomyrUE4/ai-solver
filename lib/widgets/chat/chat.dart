@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:solver/enum_chat_types.dart';
 import 'package:solver/services/http_service.dart';
 
 import '../../services/store_data_service.dart';
@@ -9,8 +10,8 @@ import 'chat_stream.dart';
 import 'chat_input.dart';
 
 class Chatter extends StatefulWidget {
-  const Chatter({super.key, required this.goBack});
-
+  const Chatter({super.key, required this.goBack, required this.selectedChatType});
+  final ChatType selectedChatType;
   final VoidCallback goBack;
 
   @override
@@ -18,6 +19,7 @@ class Chatter extends StatefulWidget {
 }
 
 class _ChatterState extends State<Chatter> {
+  late final ChatType _selectedChatType = widget.selectedChatType;
   late final VoidCallback _goBack = widget.goBack;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final myController = TextEditingController();
@@ -55,13 +57,16 @@ class _ChatterState extends State<Chatter> {
     setState(() {
       textt = "";
     });
-    StoreData.instance.getString("messages").then((messagesString) {
-      var messages = MessageBubble.decode(messagesString);
+    StoreData.instance.getString(_selectedChatType.name).then((messagesString) {
+      List<MessageBubble> messages = [];
+      if(messagesString.isNotEmpty) {
+        messages = MessageBubble.decode(messagesString);
+      }
       messages
           .add(MessageBubble(msgText: valueText, msgSender: "me", user: true));
 
-      StoreData.instance.saveString("messages", MessageBubble.encode(messages));
-      HttpService.instance.askQuestion(valueText).then(
+      StoreData.instance.saveString(_selectedChatType.name, MessageBubble.encode(messages));
+      HttpService.instance.sendRequestByChatType(_selectedChatType, valueText).then(
         (String result) {
           setState(() {
             textt = result;
@@ -69,7 +74,7 @@ class _ChatterState extends State<Chatter> {
           messages.add(
               MessageBubble(msgText: result, msgSender: "bot", user: false));
           StoreData.instance
-              .saveString("messages", MessageBubble.encode(messages));
+              .saveString(_selectedChatType.name, MessageBubble.encode(messages));
         },
       );
     });
@@ -102,7 +107,9 @@ class _ChatterState extends State<Chatter> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      ChatStream(),
+                      ChatStream(
+                        selectedChatType: _selectedChatType,
+                      ),
                       InputChatText(
                           inputController: _inputController,
                           inputHeight: _inputHeight,
